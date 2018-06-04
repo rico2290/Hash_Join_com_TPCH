@@ -1,15 +1,36 @@
-#import pandas as pd
+import pandas as pd
 #import numpy as np
 import csv
+#import os
 
 #with open('customer.tbl') as file:
 #tabela = pd.read_table(file, sep='|', index_col=0, header=None, lineterminator='\n', names=['id','name','address','nationkey','phone','acctbal','mktsegment','comment'])
 #saida = open('result.csv','w')
 #tabela.to_csv(saida,index=None)
-x = 20
-cont = 0
+
+def tranforma(id_col):
+    b = ' '
+    if len(pageId) <= 5:
+         #c = c+1
+            b = 5-len(pageId)
+            b ='{:0>5}'.format(pageId)
+            #print(c)
+            #print((b))
+    if len(pageId) > 5:
+            #c = c+1
+            b = len(pageId) - 5
+            b = pageId[b:]
+            #print(c)
+            #print((b))
+    return b
+
+
+
+x = 100
+cont = 1
 with open('result.csv') as csvfile:
-    global pegaId       
+    global pegaId   
+    c = 0
     read = csv.reader(csvfile)
     for row in read:
         if cont <= x:
@@ -20,8 +41,38 @@ with open('result.csv') as csvfile:
             pageId = ("{0:b}".format(int(pageId[12:])))
             #print(type(pageId)
             #caso o tamanho do ID for menor que o exigido
-            if len(pageId) <= 5:
-                a = 5-len(pageId)
-                a ='{:0>5}'.format(pageId)
-                print(a)
+            result = tranforma(pageId)
+            #print(s)
+
+            with open('%s.csv'%result, 'a') as filename:
+                writer = csv.writer(filename, lineterminator='\n')
+                #for col in row:
+                writer.writerow(row) 
+                #row.csv(filename)
+                #'\n'.to_csv(filename)
+
+#Write list ojbect to csv
+'''
+res = [x, y, z, ....]
+csvfile = "<path to output csv or txt>"
+
+#Assuming res is a flat list
+with open(csvfile, "w") as output:
+    writer = csv.writer(output, lineterminator='\n')
+    for val in res:
+        writer.writerow([val])    
+
+#Assuming res is a list of lists
+with open(csvfile, "w") as output:
+    writer = csv.writer(output, lineterminator='\n')
+    writer.writerows(res)
+            '''
+        
+
+
+
+
+          
+            
+
                 
