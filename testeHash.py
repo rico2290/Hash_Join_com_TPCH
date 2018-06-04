@@ -1,7 +1,8 @@
 import pandas as pd
 #import numpy as np
 import csv
-#import os
+import os
+import errno
 
 #with open('customer.tbl') as file:
 #tabela = pd.read_table(file, sep='|', index_col=0, header=None, lineterminator='\n', names=['id','name','address','nationkey','phone','acctbal','mktsegment','comment'])
@@ -43,13 +44,37 @@ with open('result.csv') as csvfile:
             #caso o tamanho do ID for menor que o exigido
             result = tranforma(pageId)
             #print(s)
+            f = 'temp/%s.csv'%result
+            if not os.path.exists(os.path.dirname(f)):
+                try:
+                     os.makedirs(os.path.dirname(f))
+                except OSError as exc: # Guard against race condition
+                    if exc.errno != errno.EEXIST:
+                        raise
 
-            with open('%s.csv'%result, 'a') as filename:
+            with open(f, 'a', encoding='utf-8') as filename:
                 writer = csv.writer(filename, lineterminator='\n')
                 #for col in row:
                 writer.writerow(row) 
                 #row.csv(filename)
                 #'\n'.to_csv(filename)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #Write list ojbect to csv
 '''
