@@ -1,5 +1,5 @@
 import pandas as pd
-#import numpy as np
+import time
 import csv
 import os
 import errno
@@ -11,28 +11,28 @@ import errno
 
 def tranforma(id_col):
     b = ' '
-    if len(pageId) <= 5:
+    if len(id_col) <= 5:
          #c = c+1
-            b = 5-len(pageId)
-            b ='{:0>5}'.format(pageId)
+            b = 5-len(id_col)
+            b ='{:0>5}'.format(id_col)
             #print(c)
             #print((b))
-    if len(pageId) > 5:
+    if len(id_col) > 5:
             #c = c+1
-            b = len(pageId) - 5
-            b = pageId[b:]
+            b = len(id_col) - 5
+            b = id_col[b:]
             #print(c)
             #print((b))
     return b
 
 
 
-x = 100
+x = 10
 cont = 1
-with open('result.csv') as csvfile:
+with open('customer.csv') as csvfile:
     global pegaId   
-    c = 0
     read = csv.reader(csvfile)
+    inicio = time.time()
     for row in read:
         if cont <= x:
             if row[0] == 'id': continue
@@ -40,28 +40,36 @@ with open('result.csv') as csvfile:
             
             cont = cont +1
             pageId = ("{0:b}".format(int(pageId[12:])))
-            #print(type(pageId)
-            #caso o tamanho do ID for menor que o exigido
+
+            #Fase de Transformação caso o tamanho do ID for menor ou maior do que o exigido
             result = tranforma(pageId)
-            #print(s)
+
+            #Fase de Construção
             f = 'temp/%s.csv'%result
             if not os.path.exists(os.path.dirname(f)):
                 try:
                      os.makedirs(os.path.dirname(f))
-                except OSError as exc: # Guard against race condition
+                except OSError as exc: # Caso nao tgenha permissão !!!
                     if exc.errno != errno.EEXIST:
                         raise
 
             with open(f, 'a', encoding='utf-8') as filename:
                 writer = csv.writer(filename, lineterminator='\n')
                 #for col in row:
-                writer.writerow(row) 
-                #row.csv(filename)
-                #'\n'.to_csv(filename)
+                writer.writerow(row)
+    print('#########', time.time()-inicio, 'segundos #########')
+
+'''
+x = 20
+cont = 1
+with open('orders.txt') as csvfile:
+    global pegaId
+    ler = csvfile.read()
+    #ler = ler.split(',')
+    print(ler)
 
 
-
-
+'''
 
 
 
