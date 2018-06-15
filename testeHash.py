@@ -21,8 +21,6 @@ def tranforma(id_col):
 
 
 
-
-
 with open('customer.csv') as csvfile:
     global pegaId   
     read = csv.reader(csvfile)
@@ -31,6 +29,7 @@ with open('customer.csv') as csvfile:
         #if cont <= x:
             if row[0] == 'id': continue
             pageId = row[0]
+            row[0] = pageId[12:]
             
             #cont = cont +1
             pageId = ("{0:b}".format(int(pageId[12:])))
@@ -46,14 +45,10 @@ with open('customer.csv') as csvfile:
                 except OSError as exc: 
                     if exc.errno != errno.EEXIST:
                         raise
-
             with open(f, 'a', encoding='utf-8') as filename:
                 write = csv.writer(filename, lineterminator='\n')
-                #writer.seek(0)
                 #primeira_letra = csv.reader(filename)
-                #if not primeira_letra:
                 #write.writerow(['id', 'name', 'address', 'nationkey', 'phone', 'acctbal', 'mktsegment', 'comment' ])
-                #else:
                 write.writerow(row) 
 
 print("Tempo de contrução Bucket: %s segundos --" % (time.time() - inicio))
